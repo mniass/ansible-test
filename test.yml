@@ -1,0 +1,21 @@
+- hosts: localhost
+  sudo: yes
+  tasks:
+   - name: 'Install some packages'
+     apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+     with_items:
+      - vim
+      - curl
+
+   - name: 'Check file'
+     stat:
+        path: /home/mniass/Downloads/vagrant_2.0.2_x86_64.dei
+     register: file_state
+
+   - name: 'Check if file exist'
+     debug:
+        msg: 'File dont exit'
+     when: file_state.stat.exists == False
